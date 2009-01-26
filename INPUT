@@ -1,0 +1,69 @@
+# This settings are parsed by /sbin/fw-up while bringing up
+# the firewalling. This file describes the INPUT chain
+# (packets which are destinated to local ports of the host).
+#
+
+
+# flush the input chain of the filter table
+# and set up the dafault policy for it { ACCEPT/DROP/REJECT }
+#
+default_policy REJECT
+
+
+################### SERVICES ACCESIBILITY
+
+# incoming Web traffic
+
+services_set WEB_INPUT
+	add_service www
+	add_service https
+	add_service webcache
+    
+	interface eth0
+	    allow_connect 172.16.0.0/16
+	    allow_connect 192.168.0.0/16
+
+	interface lo
+	    allow_connect 127.0.0.0/8
+    
+	reject_other
+
+# SSH
+
+services_set SSH_INPUT
+	add_service ssh
+	
+	interface eth0
+	    allow_connect 192.168.0.0/16
+	
+	interface lo
+	    allow_connect 127.0.0.0/8
+
+	reject_other
+
+# FTP
+
+services_set FTP_INPUT
+	add_service ftp
+	add_service ftp-data
+	
+	interface eth0
+            allow_connect 172.16.0.0/16
+	    allow_connect 1.2.3.4.5/24
+	    allow_connect 194.204.152.34/24
+	
+	interface lo
+	    allow_connect 127.0.0.0/8
+	    
+	reject_other
+
+# POCZTA
+
+services_set SMTP_INPUT
+	add_service smtp
+	
+	interface lo
+	    allow_connect 127.0.0.0/8
+	    
+	reject_other
+

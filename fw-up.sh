@@ -36,7 +36,7 @@ echo -n "Bringing up firewalling "
 
 # load fundamental functions
 #
-. /etc/firewall/firewall.functions
+. /etc/firewall/firewall.functions.sh
 
 # load and parse chains
 #
